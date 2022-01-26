@@ -1,6 +1,6 @@
 #ifndef FAKE_FUNCTIONS_PLUS
 #define FAKE_FUNCTIONS_PLUS
-#include "fff.h"
+#include "fff/fff.h"
 
 // Macros for free functions with exception specifier
 

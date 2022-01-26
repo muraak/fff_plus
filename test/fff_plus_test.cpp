@@ -1,5 +1,5 @@
 #include <cassert>
-#include "../../fff_plus.h"
+#include "../fff_plus.h"
 
 DEFINE_FFF_GLOBALS;
 
