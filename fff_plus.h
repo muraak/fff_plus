@@ -12,6 +12,14 @@
 
 #define PP_RSEQ_N_MINUS3()   20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0
 
+#define PP_NARG_MINUS4(...)   EXPAND(PP_NARG_MINUS4_(__VA_ARGS__, PP_RSEQ_N_MINUS4()))
+
+#define PP_NARG_MINUS4_(...)   EXPAND(PP_ARG_MINUS4_N(__VA_ARGS__))
+
+#define PP_ARG_MINUS4_N(a, b, c, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, N, ...)   N
+
+#define PP_RSEQ_N_MINUS4()   20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0
+
 #define DECLARE_FAKE_VALUE_FUNC0_WITH_EXCEPTION_SPEC(RETURN_TYPE, EXCEPTION_SPEC, FUNCNAME) \
     typedef struct FUNCNAME##_Fake { \
         DECLARE_ALL_FUNC_COMMON \
@@ -582,5 +590,33 @@
 #define FUNC_VALUE_WITH_EXCEPTION_SPEC_(N,...)     EXPAND(FUNC_VALUE_WITH_EXCEPTION_SPEC_N(N,__VA_ARGS__))
 
 #define FUNC_VALUE_WITH_EXCEPTION_SPEC_N(N,...)     EXPAND(FAKE_VALUE_FUNC ## N ##_WITH_EXCEPTION_SPEC(__VA_ARGS__))
+
+#define AT_2_ARG_SET0() 
+#define AT_2_ARG_SET1(at0) at0 a0
+#define AT_2_ARG_SET2(at0,at1) at0 a0, at1 a1
+#define AT_2_ARG_SET3(at0,at1,at2) at0 a0, at1 a1, at2 a2
+#define AT_2_ARG_SET4(at0,at1,at2,at3) at0 a0, at1 a1, at2 a2, at3 a3
+#define AT_2_ARG_SET5(at0,at1,at2,at3,at4) at0 a0, at1 a1, at2 a2, at3 a3, at4 a4
+#define AT_2_ARG_SET6(at0,at1,at2,at3,at4,at5) at0 a0, at1 a1, at2 a2, at3 a3, at4 a4, at5 a5
+#define AT_2_ARG_SET7(at0,at1,at2,at3,at4,at5,at6) at0 a0, at1 a1, at2 a2, at3 a3, at4 a4, at5 a5, at6 a6
+#define AT_2_ARG_SET8(at0,at1,at2,at3,at4,at5,at6,at7) at0 a0, at1 a1, at2 a2, at3 a3, at4 a4, at5 a5, at6 a6, at7 a7
+
+#define AT_2_ARG_IN_CALL0()
+#define AT_2_ARG_IN_CALL1(at0) a0
+#define AT_2_ARG_IN_CALL2(at0,at1) a0, a1
+#define AT_2_ARG_IN_CALL3(at0,at1,at2) a0, a1, a2
+#define AT_2_ARG_IN_CALL4(at0,at1,at2,at3) a0, a1, a2, a3
+#define AT_2_ARG_IN_CALL5(at0,at1,at2,at3,at4) a0, a1, a2, a3, a4
+#define AT_2_ARG_IN_CALL6(at0,at1,at2,at3,at4,at5) a0, a1, a2, a3, a4, a5
+#define AT_2_ARG_IN_CALL7(at0,at1,at2,at3,at4,at5,at6) a0, a1, a2, a3, a4, a5, a6
+#define AT_2_ARG_IN_CALL8(at0,at1,at2,at3,at4,at5,at6,at7) a0, a1, a2, a3, a4, a5, a6, a7
+
+
+#define FAKE_VALUE_MEMBER_FUNC(...) EXPAND(FAKE_VALUE_MEMBER_FUNC_(PP_NARG_MINUS4(__VA_ARGS__), __VA_ARGS__))
+
+#define FAKE_VALUE_MEMBER_FUNC_(N, ...) EXPAND(FAKE_VALUE_MEMBER_FUNC_N(N, __VA_ARGS__))
+
+#define FAKE_VALUE_MEMBER_FUNC_N(N, ty, es, cn, fn, ...) FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(ty, es, Fake##fn, ##__VA_ARGS__); \
+ty cn::fn(AT_2_ARG_SET##N(__VA_ARGS__)) es { return Fake##fn(AT_2_ARG_IN_CALL##N(__VA_ARGS__)); }
 
 #endif // FAKE_FUNCTIONS_PLUS
