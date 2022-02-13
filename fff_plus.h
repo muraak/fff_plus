@@ -590,6 +590,478 @@
 #define FUNC_VALUE_WITH_EXCEPTION_SPEC_(N,...)     EXPAND(FUNC_VALUE_WITH_EXCEPTION_SPEC_N(N,__VA_ARGS__))
 
 #define FUNC_VALUE_WITH_EXCEPTION_SPEC_N(N,...)     EXPAND(FAKE_VALUE_FUNC ## N ##_WITH_EXCEPTION_SPEC(__VA_ARGS__))
+#define DECLARE_FAKE_VOID_FUNC0_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(void); \
+        void(**custom_fake_seq)(void); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(void) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC0_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(void) EXCEPTION_SPEC{ \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC0_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME) \
+    DECLARE_FAKE_VOID_FUNC0_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME) \
+    DEFINE_FAKE_VOID_FUNC0_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME) \
+
+
+#define DECLARE_FAKE_VOID_FUNC1_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC1_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC1_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE) \
+    DECLARE_FAKE_VOID_FUNC1_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE) \
+    DEFINE_FAKE_VOID_FUNC1_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE) \
+
+
+#define DECLARE_FAKE_VOID_FUNC2_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ARG(ARG1_TYPE, 1, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0, ARG1_TYPE arg1); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0, ARG1_TYPE arg1); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC2_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        SAVE_ARG(FUNCNAME, 1); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+            SAVE_ARG_HISTORY(FUNCNAME, 1); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0, arg1); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0, arg1); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC2_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE) \
+    DECLARE_FAKE_VOID_FUNC2_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE) \
+    DEFINE_FAKE_VOID_FUNC2_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE) \
+
+
+#define DECLARE_FAKE_VOID_FUNC3_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ARG(ARG1_TYPE, 1, FUNCNAME) \
+        DECLARE_ARG(ARG2_TYPE, 2, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC3_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        SAVE_ARG(FUNCNAME, 1); \
+        SAVE_ARG(FUNCNAME, 2); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+            SAVE_ARG_HISTORY(FUNCNAME, 1); \
+            SAVE_ARG_HISTORY(FUNCNAME, 2); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0, arg1, arg2); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0, arg1, arg2); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC3_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE) \
+    DECLARE_FAKE_VOID_FUNC3_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE) \
+    DEFINE_FAKE_VOID_FUNC3_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE) \
+
+
+#define DECLARE_FAKE_VOID_FUNC4_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ARG(ARG1_TYPE, 1, FUNCNAME) \
+        DECLARE_ARG(ARG2_TYPE, 2, FUNCNAME) \
+        DECLARE_ARG(ARG3_TYPE, 3, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC4_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        SAVE_ARG(FUNCNAME, 1); \
+        SAVE_ARG(FUNCNAME, 2); \
+        SAVE_ARG(FUNCNAME, 3); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+            SAVE_ARG_HISTORY(FUNCNAME, 1); \
+            SAVE_ARG_HISTORY(FUNCNAME, 2); \
+            SAVE_ARG_HISTORY(FUNCNAME, 3); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0, arg1, arg2, arg3); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0, arg1, arg2, arg3); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC4_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE) \
+    DECLARE_FAKE_VOID_FUNC4_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE) \
+    DEFINE_FAKE_VOID_FUNC4_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE) \
+
+
+#define DECLARE_FAKE_VOID_FUNC5_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ARG(ARG1_TYPE, 1, FUNCNAME) \
+        DECLARE_ARG(ARG2_TYPE, 2, FUNCNAME) \
+        DECLARE_ARG(ARG3_TYPE, 3, FUNCNAME) \
+        DECLARE_ARG(ARG4_TYPE, 4, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC5_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        SAVE_ARG(FUNCNAME, 1); \
+        SAVE_ARG(FUNCNAME, 2); \
+        SAVE_ARG(FUNCNAME, 3); \
+        SAVE_ARG(FUNCNAME, 4); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+            SAVE_ARG_HISTORY(FUNCNAME, 1); \
+            SAVE_ARG_HISTORY(FUNCNAME, 2); \
+            SAVE_ARG_HISTORY(FUNCNAME, 3); \
+            SAVE_ARG_HISTORY(FUNCNAME, 4); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0, arg1, arg2, arg3, arg4); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0, arg1, arg2, arg3, arg4); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC5_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE) \
+    DECLARE_FAKE_VOID_FUNC5_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE) \
+    DEFINE_FAKE_VOID_FUNC5_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE) \
+
+
+#define DECLARE_FAKE_VOID_FUNC6_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ARG(ARG1_TYPE, 1, FUNCNAME) \
+        DECLARE_ARG(ARG2_TYPE, 2, FUNCNAME) \
+        DECLARE_ARG(ARG3_TYPE, 3, FUNCNAME) \
+        DECLARE_ARG(ARG4_TYPE, 4, FUNCNAME) \
+        DECLARE_ARG(ARG5_TYPE, 5, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC6_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        SAVE_ARG(FUNCNAME, 1); \
+        SAVE_ARG(FUNCNAME, 2); \
+        SAVE_ARG(FUNCNAME, 3); \
+        SAVE_ARG(FUNCNAME, 4); \
+        SAVE_ARG(FUNCNAME, 5); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+            SAVE_ARG_HISTORY(FUNCNAME, 1); \
+            SAVE_ARG_HISTORY(FUNCNAME, 2); \
+            SAVE_ARG_HISTORY(FUNCNAME, 3); \
+            SAVE_ARG_HISTORY(FUNCNAME, 4); \
+            SAVE_ARG_HISTORY(FUNCNAME, 5); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0, arg1, arg2, arg3, arg4, arg5); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0, arg1, arg2, arg3, arg4, arg5); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC6_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE) \
+    DECLARE_FAKE_VOID_FUNC6_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE) \
+    DEFINE_FAKE_VOID_FUNC6_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE) \
+
+
+#define DECLARE_FAKE_VOID_FUNC7_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ARG(ARG1_TYPE, 1, FUNCNAME) \
+        DECLARE_ARG(ARG2_TYPE, 2, FUNCNAME) \
+        DECLARE_ARG(ARG3_TYPE, 3, FUNCNAME) \
+        DECLARE_ARG(ARG4_TYPE, 4, FUNCNAME) \
+        DECLARE_ARG(ARG5_TYPE, 5, FUNCNAME) \
+        DECLARE_ARG(ARG6_TYPE, 6, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC7_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        SAVE_ARG(FUNCNAME, 1); \
+        SAVE_ARG(FUNCNAME, 2); \
+        SAVE_ARG(FUNCNAME, 3); \
+        SAVE_ARG(FUNCNAME, 4); \
+        SAVE_ARG(FUNCNAME, 5); \
+        SAVE_ARG(FUNCNAME, 6); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+            SAVE_ARG_HISTORY(FUNCNAME, 1); \
+            SAVE_ARG_HISTORY(FUNCNAME, 2); \
+            SAVE_ARG_HISTORY(FUNCNAME, 3); \
+            SAVE_ARG_HISTORY(FUNCNAME, 4); \
+            SAVE_ARG_HISTORY(FUNCNAME, 5); \
+            SAVE_ARG_HISTORY(FUNCNAME, 6); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5, arg6); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0, arg1, arg2, arg3, arg4, arg5, arg6); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0, arg1, arg2, arg3, arg4, arg5, arg6); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC7_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE) \
+    DECLARE_FAKE_VOID_FUNC7_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE) \
+    DEFINE_FAKE_VOID_FUNC7_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE) \
+
+
+#define DECLARE_FAKE_VOID_FUNC8_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE, ARG7_TYPE) \
+    typedef struct FUNCNAME##_Fake { \
+        DECLARE_ARG(ARG0_TYPE, 0, FUNCNAME) \
+        DECLARE_ARG(ARG1_TYPE, 1, FUNCNAME) \
+        DECLARE_ARG(ARG2_TYPE, 2, FUNCNAME) \
+        DECLARE_ARG(ARG3_TYPE, 3, FUNCNAME) \
+        DECLARE_ARG(ARG4_TYPE, 4, FUNCNAME) \
+        DECLARE_ARG(ARG5_TYPE, 5, FUNCNAME) \
+        DECLARE_ARG(ARG6_TYPE, 6, FUNCNAME) \
+        DECLARE_ARG(ARG7_TYPE, 7, FUNCNAME) \
+        DECLARE_ALL_FUNC_COMMON \
+        DECLARE_CUSTOM_FAKE_SEQ_VARIABLES \
+        void(*custom_fake)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6, ARG7_TYPE arg7); \
+        void(**custom_fake_seq)(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6, ARG7_TYPE arg7); \
+    } FUNCNAME##_Fake; \
+    extern FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FUNCNAME##_reset(void); \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6, ARG7_TYPE arg7) EXCEPTION_SPEC; \
+
+#define DEFINE_FAKE_VOID_FUNC8_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE, ARG7_TYPE) \
+    FUNCNAME##_Fake FUNCNAME##_fake; \
+    void FFF_GCC_FUNCTION_ATTRIBUTES FUNCNAME(ARG0_TYPE arg0, ARG1_TYPE arg1, ARG2_TYPE arg2, ARG3_TYPE arg3, ARG4_TYPE arg4, ARG5_TYPE arg5, ARG6_TYPE arg6, ARG7_TYPE arg7) EXCEPTION_SPEC{ \
+        SAVE_ARG(FUNCNAME, 0); \
+        SAVE_ARG(FUNCNAME, 1); \
+        SAVE_ARG(FUNCNAME, 2); \
+        SAVE_ARG(FUNCNAME, 3); \
+        SAVE_ARG(FUNCNAME, 4); \
+        SAVE_ARG(FUNCNAME, 5); \
+        SAVE_ARG(FUNCNAME, 6); \
+        SAVE_ARG(FUNCNAME, 7); \
+        if(ROOM_FOR_MORE_HISTORY(FUNCNAME)){ \
+            SAVE_ARG_HISTORY(FUNCNAME, 0); \
+            SAVE_ARG_HISTORY(FUNCNAME, 1); \
+            SAVE_ARG_HISTORY(FUNCNAME, 2); \
+            SAVE_ARG_HISTORY(FUNCNAME, 3); \
+            SAVE_ARG_HISTORY(FUNCNAME, 4); \
+            SAVE_ARG_HISTORY(FUNCNAME, 5); \
+            SAVE_ARG_HISTORY(FUNCNAME, 6); \
+            SAVE_ARG_HISTORY(FUNCNAME, 7); \
+        } \
+        else{ \
+            HISTORY_DROPPED(FUNCNAME); \
+        } \
+        INCREMENT_CALL_COUNT(FUNCNAME); \
+        REGISTER_CALL(FUNCNAME); \
+        if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
+            if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); \
+            } \
+            else{ \
+                FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_len-1](arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); \
+            } \
+        } \
+        if (FUNCNAME##_fake.custom_fake){  \
+            FUNCNAME##_fake.custom_fake(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); \
+        } \
+    } \
+    DEFINE_RESET_FUNCTION(FUNCNAME) \
+
+#define FAKE_VOID_FUNC8_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE, ARG7_TYPE) \
+    DECLARE_FAKE_VOID_FUNC8_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE, ARG7_TYPE) \
+    DEFINE_FAKE_VOID_FUNC8_WITH_EXCEPTION_SPEC(EXCEPTION_SPEC, FUNCNAME, ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE, ARG7_TYPE) \
+
+#define FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(...)     EXPAND(FUNC_VOID_WITH_EXCEPTION_SPEC_(PP_NARG_MINUS2(__VA_ARGS__), __VA_ARGS__))
+
+#define FUNC_VOID_WITH_EXCEPTION_SPEC_(N,...)     EXPAND(FUNC_VOID_WITH_EXCEPTION_SPEC_N(N,__VA_ARGS__))
+
+#define FUNC_VOID_WITH_EXCEPTION_SPEC_N(N,...)     EXPAND(FAKE_VOID_FUNC ## N ##_WITH_EXCEPTION_SPEC(__VA_ARGS__))
 
 #define AT_2_ARG_SET0() 
 #define AT_2_ARG_SET1(at0) at0 a0
