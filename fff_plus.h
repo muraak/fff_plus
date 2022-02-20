@@ -1,6 +1,12 @@
+/**
+ * Copyright (c) 2022 muraak
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
 #ifndef FAKE_FUNCTIONS_PLUS
 #define FAKE_FUNCTIONS_PLUS
-#include "fff/fff.h"
+#include "fff/fff.h" // SEE:https://github.com/meekrosoft/fff
 
 // Macros for free functions with exception specifier
 
