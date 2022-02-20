@@ -17,7 +17,7 @@ FFF Plusでは、以下の機能を追加しています。
 
 例)
 
-```{*.cpp}
+```cpp
 // test_sample.cpp
 #include "fff_plus.h"
 ```
@@ -29,7 +29,7 @@ FFF Plusでは、以下の機能を追加しています。
 
 例）
 
-```{*.cpp}
+```cpp
 // lib.h
 void void_func0_0(void) noexcept; // Fakeの作成対象の関数宣言
 ...
