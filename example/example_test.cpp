@@ -35,7 +35,7 @@ FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(int/*戻り値型*/, noexcept/*例外指定�
 // 例外指定子がない場合は空白とします。
 FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(int, /*例外指定子なし*/, Ex1_valueFuncB, int, int);
 // void型例外指定子付き関数のFake作成例
-// void型関数はFAKE_VOID_MEMBER_FUNCマクロを使用します。
+// void型関数はFAKE_VOID_FUNC_WITH_EXCEPTION_SPECマクロを使用します。
 FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(noexcept/*例外指定子*/, Ex1_voidFuncA/*関数名*/, int/*引数型（1つ目）*/);
 
 // テスト関数
