@@ -27,11 +27,12 @@ git clone --recursive https://github.com/muraak/fff_plus.git
 - [具象クラスのメンバ関数のFakeを作成する](#具象クラスのメンバ関数のFakeを作成する)
 - [Fakeを複数のソースで共有する](#Fakeを複数のソースで共有する)
 
-> NOTE：
- 本章で紹介するコードはすべて`example`フォルダにあり，以下の手順で実際にビルド・実行できます。
-    - コマンド`sh build.sh`でビルド
-    - `./build/example`で実行
-    - 無事に実行されると`ALL PASSED!!`が標準出力されます
+なお，本章で紹介するコードはすべて`example`フォルダにあり，以下の手順で実際にビルド・実行できます。
+
+- コマンド`sh build.sh`でビルド
+- `./build/example`で実行
+- 無事に実行されると`ALL PASSED!!`が標準出力されます
+
 #### 例外指定子つきの自由関数のFakeを作成する
 
 以下のマクロを利用します。
