@@ -54,6 +54,16 @@ void test(void)
     RESET_FAKE(FakeExClassvalueMethodB);
     RESET_FAKE(FakeExClassvoidMethodA);
 
+    // 外部で「定義」したFakeも「宣言」をインクルードすることで同様に利用できます
+    RESET_FAKE(Ex2_valueFuncA);
+    RESET_FAKE(Ex2_valueFuncA0);
+    RESET_FAKE(Ex2_valueFuncB);
+    RESET_FAKE(Ex2_voidFuncA);
+    RESET_FAKE(FakeExClass2valueMethodA);
+    RESET_FAKE(FakeExClass2valueMethodA0);
+    RESET_FAKE(FakeExClass2valueMethodB);
+    RESET_FAKE(FakeExClass2voidMethodA);
+
     testee_func(); // 中でlib.hの関数をコールするテスト対象です
     
     // RESET_FAKEの引数に指定した名前_fake構造体のメンバにアクセスすることで
@@ -68,6 +78,18 @@ void test(void)
     ASSERT_EQ(1, FakeExClassvalueMethodA0_fake.call_count);
     ASSERT_EQ(1, FakeExClassvalueMethodB_fake.call_count);
     ASSERT_EQ(1, FakeExClassvoidMethodA_fake.call_count);
+
+    // 外部で「定義」したFake
+    ASSERT_EQ(1, Ex2_valueFuncA_fake.call_count);
+    ASSERT_EQ(1, Ex2_valueFuncA0_fake.call_count);
+    ASSERT_EQ(1, Ex2_valueFuncB_fake.call_count);
+    ASSERT_EQ(1, Ex2_voidFuncA_fake.call_count);
+
+    ASSERT_EQ(1, FakeExClass2valueMethodA_fake.call_count);
+    ASSERT_EQ(1, FakeExClass2valueMethodA0_fake.call_count);
+    ASSERT_EQ(1, FakeExClass2valueMethodB_fake.call_count);
+    ASSERT_EQ(1, FakeExClass2voidMethodA_fake.call_count);
+
 
     printf("ALL PASSED!!\n");
 }

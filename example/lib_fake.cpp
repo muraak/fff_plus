@@ -1,9 +1,4 @@
-/**
- * Copyright (c) 2022 muraak
- * 
- * This software is released under the MIT License.
- * https://opensource.org/licenses/MIT
- */
+// lib_fake.cpp
 #include "lib_fake.h"
 
 // メンバ関数のFake作成例
