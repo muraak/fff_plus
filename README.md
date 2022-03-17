@@ -97,6 +97,85 @@ void test(void)
 
 #### 具象クラスのメンバ関数のFakeを作成する
 
+`FAKE_VALUE_MEMBER_FUNC`および`FAKE_VOID_MEMBER_FUNC`マクロを利用します。
+
+例）
+
+以下`lib.h`に宣言されたメンバ関数のFakeを、テストコードを含む`example_test.cpp`に生成します。
+
+```cpp
+// lib.h
+...
+/** 
+ * @brief Fake作成対象の具象クラス
+ * @details 
+ * テスト対象のtestee.cppで使用されますが
+ * 宣言のみで実装がまだ存在しません。
+ * fff_plusを利用して各メンバ関数のFakeを作成する対象です。
+ */
+class ExClass
+{
+public:
+    int valueMethodA(int a) noexcept; // 例外指定子つき
+    int valueMethodA0() noexcept; // 引数なし
+    void voidMethodA(int a) noexcept; // void型
+    int valueMethodB(int a, int b); // 例外指定子なし
+};
+```
+
+```cpp
+// example_test.cpp
+...
+#include "fff_plus.h"
+#include "lib.h"
+...
+// メンバ関数のFake作成例
+// 引数は8個まで指定可能です。
+FAKE_VALUE_MEMBER_FUNC(int/*戻り値型*/, noexcept/*例外指定子*/, ExClass/*クラス名*/, valueMethodA/*関数名*/, int/*引数型（1つ目）*/);
+// メンバ関数のFake作成例
+// 引数なしも指定可能です。
+FAKE_VALUE_MEMBER_FUNC(int/*戻り値型*/, noexcept/*例外指定子*/, ExClass/*クラス名*/, valueMethodA0/*関数名*//*引数なし*/);
+// メンバ関数のFake作成例
+// 例外指定子がない場合は空白とします。
+FAKE_VALUE_MEMBER_FUNC(int, /*例外指定子なし*/, ExClass, valueMethodB, int, int);
+// void型メンバ関数のFake作成例
+// void型関数はFAKE_VOID_MEMBER_FUNCマクロを使用します。
+FAKE_VOID_MEMBER_FUNC(noexcept/*例外指定子*/, ExClass/*クラス名*/, voidMethodA/*関数名*/, int/*引数型（1つ目）*/);
+```
+
+以下、テスト関数`test()`で検証する関数`testee_func()`は、中でFakeを作成した`lib.h`のライブラリ関数をコールしています。Fakeを作成することで、当該ライブラリ関数のコール回数、呼び出し時の引数の値などを検証することができます。
+
+```cpp
+// example_test.cpp
+...
+// テスト関数
+void test(void)
+{
+    // 以下のマクロでFakeの呼出し履歴等をリセットすることができます
+    ...
+    // メンバ関数のFakeは引数にFake+クラス名+関数名を指定します
+    RESET_FAKE(FakeExClassvalueMethodA);
+    RESET_FAKE(FakeExClassvalueMethodA0);
+    RESET_FAKE(FakeExClassvalueMethodB);
+    RESET_FAKE(FakeExClassvoidMethodA);
+
+    ...
+
+    testee_func(); // 中でlib.hの関数をコールするテスト対象です
+    
+    // RESET_FAKEの引数に指定した名前_fake構造体のメンバにアクセスすることで
+    // コール回数やコール時の引数の値を検証できます（FFFの仕様と同じです）
+    // Fakeの呼出し回数の検証
+    ...
+    ASSERT_EQ(1, FakeExClassvalueMethodA_fake.call_count);
+    ASSERT_EQ(1, FakeExClassvalueMethodA0_fake.call_count);
+    ASSERT_EQ(1, FakeExClassvalueMethodB_fake.call_count);
+    ASSERT_EQ(1, FakeExClassvoidMethodA_fake.call_count);
+    ...
+}
+```
+
+
 #### Fakeを複数のソースで共有する
 
 
