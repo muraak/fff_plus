@@ -17,6 +17,16 @@ int func6_0(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6) noexcept
 int func7_0(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7) noexcept;
 int func8_0(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8) noexcept;
 
+// overload functions
+float func1_0(float arg1) noexcept;
+float func2_0(float arg1, float arg2) noexcept;
+float func3_0(float arg1, float arg2, float arg3) noexcept;
+float func4_0(float arg1, float arg2, float arg3, float arg4) noexcept;
+float func5_0(float arg1, float arg2, float arg3, float arg4, float arg5) noexcept;
+float func6_0(float arg1, float arg2, float arg3, float arg4, float arg5, float arg6) noexcept;
+float func7_0(float arg1, float arg2, float arg3, float arg4, float arg5, float arg6, float arg7) noexcept;
+float func8_0(float arg1, float arg2, float arg3, float arg4, float arg5, float arg6, float arg7, float arg8) noexcept;
+
 class test_class
 {
 public:
@@ -47,6 +57,21 @@ FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(int, noexcept, func5_0, int, int, int, int, 
 FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(int, noexcept, func6_0, int, int, int, int, int, int);
 FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(int, noexcept, func7_0, int, int, int, int, int, int, int);
 FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(int, noexcept, func8_0, int, int, int, int, int, int, int, int);
+
+#define func1_0_Fake    func1_0_Fake_ovl1
+#define func1_0_fake    func1_0_fake_ovl1
+#define func1_0_reset   func0_0_reset_ovl1
+FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func1_0, float);
+#undef func1_0_Fake
+#undef func1_0_fake
+#undef func1_0_reset
+// FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func2_0, float, float);
+// FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func3_0, float, float, float);
+// FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func4_0, float, float, float, float);
+// FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func5_0, float, float, float, float, float);
+// FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func6_0, float, float, float, float, float, float);
+// FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func7_0, float, float, float, float, float, float, float);
+// FAKE_VALUE_FUNC_WITH_EXCEPTION_SPEC(float, noexcept, func8_0, float, float, float, float, float, float, float, float);
 
 
 void void_func0_0(void) noexcept;
@@ -150,8 +175,8 @@ void test()
     RESET_FAKE(void_func7_0);
     RESET_FAKE(void_func8_0);
 
-    RESET_FAKE(Fakemember_func0_0);
-    RESET_FAKE(Fakemember_func1_0);
+    RESET_FAKE(Faketest_classmember_func0_0);
+    RESET_FAKE(Faketest_classmember_func1_0);
 
     test_target();
 
@@ -177,15 +202,15 @@ void test()
     assert(1 == void_func7_0_fake.call_count);
     assert(1 == void_func8_0_fake.call_count);
 
-    assert(1 == Fakemember_func0_0_fake.call_count);
-    assert(1 == Fakemember_func1_0_fake.call_count);
-    assert(1 == Fakemember_func2_0_fake.call_count);
-    assert(1 == Fakemember_func3_0_fake.call_count);
-    assert(1 == Fakemember_func4_0_fake.call_count);
-    assert(1 == Fakemember_func5_0_fake.call_count);
-    assert(1 == Fakemember_func6_0_fake.call_count);
-    assert(1 == Fakemember_func7_0_fake.call_count);
-    assert(1 == Fakemember_func8_0_fake.call_count);
+    assert(1 == Faketest_classmember_func0_0_fake.call_count);
+    assert(1 == Faketest_classmember_func1_0_fake.call_count);
+    assert(1 == Faketest_classmember_func2_0_fake.call_count);
+    assert(1 == Faketest_classmember_func3_0_fake.call_count);
+    assert(1 == Faketest_classmember_func4_0_fake.call_count);
+    assert(1 == Faketest_classmember_func5_0_fake.call_count);
+    assert(1 == Faketest_classmember_func6_0_fake.call_count);
+    assert(1 == Faketest_classmember_func7_0_fake.call_count);
+    assert(1 == Faketest_classmember_func8_0_fake.call_count);
 
     printf("PASSED!\n");
 }
