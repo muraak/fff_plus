@@ -32,6 +32,8 @@ int member_func5_0(int arg1, int arg2, int arg3, int arg4, int arg5) noexcept;
 int member_func6_0(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6) noexcept;
 int member_func7_0(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7) noexcept;
 int member_func8_0(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8) noexcept;
+
+int member_func3_1(int arg1, int arg2, int *arg3) noexcept;
 };
 
 
@@ -89,7 +91,9 @@ FAKE_VALUE_MEMBER_FUNC(int, noexcept, test_class, member_func6_0, int, int, int,
 FAKE_VALUE_MEMBER_FUNC(int, noexcept, test_class, member_func7_0, int, int, int, int, int, int, int);
 FAKE_VALUE_MEMBER_FUNC(int, noexcept, test_class, member_func8_0, int, int, int, int, int, int, int, int);
 
-void test_target()
+FAKE_VALUE_MEMBER_FUNC(int, noexcept, test_class, member_func3_1, int, int, int*);
+
+void test_target(int *arg)
 {
     func0_0();
     func0_2();
@@ -124,6 +128,13 @@ void test_target()
     obj.member_func6_0(1,2,3,4,5,6);
     obj.member_func7_0(1,2,3,4,5,6,7);
     obj.member_func8_0(1,2,3,4,5,6,7,8);
+    obj.member_func3_1(1, 2, arg);
+}
+
+int cf_member_func3_1(int arg1, int arg2, int *arg3) noexcept
+{
+    *arg3 = 1000;
+    return 0;
 }
 
 void test()
@@ -150,10 +161,13 @@ void test()
     RESET_FAKE(void_func7_0);
     RESET_FAKE(void_func8_0);
 
-    RESET_FAKE(Fakemember_func0_0);
-    RESET_FAKE(Fakemember_func1_0);
+    RESET_FAKE(Faketest_classmember_func0_0);
+    RESET_FAKE(Faketest_classmember_func1_0);
 
-    test_target();
+    Faketest_classmember_func3_1_fake.custom_fake = cf_member_func3_1;
+
+    int arg = 0;
+    test_target(&arg);
 
     assert(1 == func0_2_fake.call_count);
     assert(1 == func0_0_fake.call_count);
@@ -177,15 +191,15 @@ void test()
     assert(1 == void_func7_0_fake.call_count);
     assert(1 == void_func8_0_fake.call_count);
 
-    assert(1 == Fakemember_func0_0_fake.call_count);
-    assert(1 == Fakemember_func1_0_fake.call_count);
-    assert(1 == Fakemember_func2_0_fake.call_count);
-    assert(1 == Fakemember_func3_0_fake.call_count);
-    assert(1 == Fakemember_func4_0_fake.call_count);
-    assert(1 == Fakemember_func5_0_fake.call_count);
-    assert(1 == Fakemember_func6_0_fake.call_count);
-    assert(1 == Fakemember_func7_0_fake.call_count);
-    assert(1 == Fakemember_func8_0_fake.call_count);
+    assert(1 == Faketest_classmember_func0_0_fake.call_count);
+    assert(1 == Faketest_classmember_func1_0_fake.call_count);
+    assert(1 == Faketest_classmember_func2_0_fake.call_count);
+    assert(1 == Faketest_classmember_func3_0_fake.call_count);
+    assert(1 == Faketest_classmember_func4_0_fake.call_count);
+    assert(1 == Faketest_classmember_func5_0_fake.call_count);
+    assert(1 == Faketest_classmember_func6_0_fake.call_count);
+    assert(1 == Faketest_classmember_func7_0_fake.call_count);
+    assert(1 == Faketest_classmember_func8_0_fake.call_count);
 
     printf("PASSED!\n");
 }
