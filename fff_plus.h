@@ -101,7 +101,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0); \
@@ -158,7 +158,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE, ARG1_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1); \
@@ -218,7 +218,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2); \
@@ -281,7 +281,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3); \
@@ -347,7 +347,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4); \
@@ -416,7 +416,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5); \
@@ -488,7 +488,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5, arg6); \
@@ -563,7 +563,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((RETURN_TYPE (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE, ARG7_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 RETURN_TYPE ret = FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); \
@@ -672,7 +672,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0); \
@@ -718,7 +718,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE, ARG1_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1); \
@@ -767,7 +767,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2); \
@@ -819,7 +819,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3); \
@@ -874,7 +874,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4); \
@@ -932,7 +932,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5); \
@@ -993,7 +993,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5, arg6); \
@@ -1057,7 +1057,7 @@
             HISTORY_DROPPED(FUNCNAME); \
         } \
         INCREMENT_CALL_COUNT(FUNCNAME); \
-        REGISTER_CALL(FUNCNAME); \
+        REGISTER_CALL((void (*)(ARG0_TYPE, ARG1_TYPE, ARG2_TYPE, ARG3_TYPE, ARG4_TYPE, ARG5_TYPE, ARG6_TYPE, ARG7_TYPE))FUNCNAME); \
         if (FUNCNAME##_fake.custom_fake_seq_len){ /* a sequence of custom fakes */ \
             if (FUNCNAME##_fake.custom_fake_seq_idx < FUNCNAME##_fake.custom_fake_seq_len){ \
                 FUNCNAME##_fake.custom_fake_seq[FUNCNAME##_fake.custom_fake_seq_idx++](arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7); \
@@ -1157,6 +1157,10 @@ void cn::fn(AT_2_ARG_SET##N(__VA_ARGS__)) es { return Fake##cn##fn(AT_2_ARG_IN_C
 
 #define DEFINE_FAKE_VOID_MEMBER_FUNC_N(N, es, cn, fn, ...) DEFINE_FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(es, Fake##cn##fn, ##__VA_ARGS__); \
 void cn::fn(AT_2_ARG_SET##N(__VA_ARGS__)) es { return Fake##cn##fn(AT_2_ARG_IN_CALL##N(__VA_ARGS__)); }
+
+// for second and the subsequent fake of overload functions
+#define BEGIN_FAKE_OVERLOAD()
+#define END_FAKE_OVERLOAD()
 
 
 #endif // FAKE_FUNCTIONS_PLUS

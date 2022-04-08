@@ -31,5 +31,9 @@ void testee_func(void)
     Ex2_valueFuncA0();
     Ex2_valueFuncB(1,2);
     Ex2_voidFuncA(1);
+
+    Ex3_valueFuncA(1);
+    Ex3_valueFuncA(2.0f);
+    Ex3_valueFuncA(1, 2.0f);
 }
 

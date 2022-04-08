@@ -45,4 +45,8 @@ int     Ex2_valueFuncA0() noexcept; // 引数なし
 void    Ex2_voidFuncA(int a) noexcept; // void型
 int     Ex2_valueFuncB(int a, int b); // 例外指定子なし
 
+void    Ex3_valueFuncA(int a) noexcept; // 例外指定子つき
+void    Ex3_valueFuncA(float a) noexcept; // 例外指定子つき,オーバーロード１
+void    Ex3_valueFuncA(int a, float b) noexcept; // 例外指定子つき,オーバーロード２
+
 #endif // LIB_H

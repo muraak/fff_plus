@@ -63,6 +63,10 @@ void test(void)
     RESET_FAKE(FakeExClass2valueMethodA0);
     RESET_FAKE(FakeExClass2valueMethodB);
     RESET_FAKE(FakeExClass2voidMethodA);
+    // オーバーロード関数の場合、2つ目以降のFakeには宣言/定義時に置換したシンボル名でアクセスします
+    RESET_FAKE(Ex3_valueFuncA);
+    RESET_FAKE(Ex3_valueFuncA_ovl1); // 2つ目のオーバーロード関数
+    RESET_FAKE(Ex3_valueFuncA_ovl2); // 3つ目のオーバーロード関数
 
     testee_func(); // 中でlib.hの関数をコールするテスト対象です
     
@@ -89,6 +93,12 @@ void test(void)
     ASSERT_EQ(1, FakeExClass2valueMethodA0_fake.call_count);
     ASSERT_EQ(1, FakeExClass2valueMethodB_fake.call_count);
     ASSERT_EQ(1, FakeExClass2voidMethodA_fake.call_count);
+
+    // オーバーロード関数のFake
+    // オーバーロード関数の場合、2つ目以降のFakeには宣言/定義時に置換したシンボル名でアクセスします
+    ASSERT_EQ(1, Ex3_valueFuncA_fake.call_count);
+    ASSERT_EQ(1, Ex3_valueFuncA_ovl1_fake.call_count); // 2つ目のオーバーロード関数
+    ASSERT_EQ(1, Ex3_valueFuncA_ovl2_fake.call_count); // 3つ目のオーバーロード関数
 
 
     printf("ALL PASSED!!\n");

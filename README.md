@@ -1,13 +1,13 @@
 
 # FFF Plus
 
-## 日本語
 
 FFF Plusは[Fake Function Framewark(FFF)](https://github.com/meekrosoft/fff)をC++向けに機能拡張したものです。FFFは、宣言済みで未実装の関数のFake（スタブ）の生成を簡略化するテスト補助マクロです。
 FFF Plusでは、以下の機能を追加しています。
 
 - 例外指定子付きの自由関数のFakeを生成可能
 - 具象クラスのメンバ関数のFakeを生成可能
+- オーバーロード関数のFakeを生成可能
 
 ## 使い方
 
@@ -23,9 +23,10 @@ git clone --recursive https://github.com/muraak/fff_plus.git
 
 ### 主な使用例
 
-- [例外指定子つきの自由関数のFakeを作成する](#例外指定子つきの自由関数のFakeを作成する)
-- [具象クラスのメンバ関数のFakeを作成する](#具象クラスのメンバ関数のFakeを作成する)
-- [Fakeを複数のソースで共有する](#Fakeを複数のソースで共有する)
+- [例外指定子つきの自由関数のFakeを作成する](#例外指定子つきの自由関数のfakeを作成する)
+- [具象クラスのメンバ関数のFakeを作成する](#具象クラスのメンバ関数のfakeを作成する)
+- [Fakeを複数のソースで共有する](#fakeを複数のソースで共有する)
+- [オーバーロード関数のFakeを作成する](#オーバーロード関数のfakeを作成する)
 
 なお，本章で紹介するコードはすべて`example`フォルダにあり，以下の手順で実際にビルド・実行できます。
 
@@ -329,5 +330,107 @@ int main(void)
 
 - テストコードのソースが増え，`testee.cpp`とは別のファイル`testee_part2.cpp`を追加した場合も，両方のファイルでFAKEを利用可能
 - これらのリソース`lib_fake.h`，`lib_fake.cpp`は，同じスタブを利用する，他のテストに再利用可能
+
+# オーバーロード関数のFakeを作成する
+
+オーバーロード関数のうちの1つだけFakeを作成する場合は、他のFakeの作成方法と同じです。2つ以上のオーバーロード関数のFakeを作成する場合は、define/undefを使用したFake用シンボルの置換が必要です。
+
+例）
+
+以下のオーバーロード関数のFakeを作成します。
+
+```cpp
+// lib.h
+...
+void    Ex3_valueFuncA(int a) noexcept; // 例外指定子つき
+void    Ex3_valueFuncA(float a) noexcept; // 例外指定子つき,オーバーロード１
+void    Ex3_valueFuncA(int a, float b) noexcept; // 例外指定子つき,オーバーロード２
+```
+
+- Fake宣言
+
+```cpp
+// lib_fake.h
+...
+// オーバーロード関数のFake作成例
+// 2つ目以降のオーバーロード関数のFakeを作成するときは、define/undefをつかって
+// 一部のリソースのシンボル名を置換する必要があります。少々手間でごめんなさい。
+// 推奨置換名規則：<元の関数名> + '_' + <置換用の識別名(e.g. ovl1)> + '_' + <Fake|fake|reset>
+// 1つ目のオーバーロード関数のFake宣言
+DECLARE_FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(noexcept, Ex3_valueFuncA, int);
+// ２つ目のオーバーロード関数のFake宣言
+#define Ex3_valueFuncA_Fake             Ex3_valueFuncA_ovl1_Fake
+#define Ex3_valueFuncA_fake             Ex3_valueFuncA_ovl1_fake
+#define Ex3_valueFuncA_reset            Ex3_valueFuncA_ovl1_reset
+DECLARE_FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(noexcept, Ex3_valueFuncA, float);
+#undef Ex3_valueFuncA_Fake 
+#undef Ex3_valueFuncA_fake 
+#undef Ex3_valueFuncA_reset
+// ３つ目のオーバーロード関数のFake宣言
+#define Ex3_valueFuncA_Fake             Ex3_valueFuncA_ovl2_Fake
+#define Ex3_valueFuncA_fake             Ex3_valueFuncA_ovl2_fake
+#define Ex3_valueFuncA_reset            Ex3_valueFuncA_ovl2_reset
+DECLARE_FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(noexcept, Ex3_valueFuncA, int, float);
+#undef Ex3_valueFuncA_Fake 
+#undef Ex3_valueFuncA_fake 
+#undef Ex3_valueFuncA_reset
+```
+
+- Fake定義
+
+```cpp
+// オーバーロード関数のFake作成例
+// 2つ目以降のオーバーロード関数のFakeを作成するときは、define/undefをつかって
+// 一部のリソースのシンボル名を置換する必要があります。少々手間でごめんなさい。
+// 1つ目のオーバーロード関数のFake定義
+DEFINE_FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(noexcept, Ex3_valueFuncA, int);
+// ２つ目のオーバーロード関数のFake定義
+#define Ex3_valueFuncA_Fake             Ex3_valueFuncA_ovl1_Fake
+#define Ex3_valueFuncA_fake             Ex3_valueFuncA_ovl1_fake
+#define Ex3_valueFuncA_reset            Ex3_valueFuncA_ovl1_reset
+DEFINE_FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(noexcept, Ex3_valueFuncA, float);
+#undef Ex3_valueFuncA_Fake 
+#undef Ex3_valueFuncA_fake 
+#undef Ex3_valueFuncA_reset
+// ３つ目のオーバーロード関数のFake定義
+#define Ex3_valueFuncA_Fake             Ex3_valueFuncA_ovl2_Fake
+#define Ex3_valueFuncA_fake             Ex3_valueFuncA_ovl2_fake
+#define Ex3_valueFuncA_reset            Ex3_valueFuncA_ovl2_reset
+DEFINE_FAKE_VOID_FUNC_WITH_EXCEPTION_SPEC(noexcept, Ex3_valueFuncA, int, float);
+#undef Ex3_valueFuncA_Fake 
+#undef Ex3_valueFuncA_fake 
+#undef Ex3_valueFuncA_reset
+```
+
+- テストコード
+
+```cpp
+// example_test.cpp
+...
+// テスト関数
+void test(void)
+{
+    // 以下のマクロでFakeの呼出し履歴等をリセットすることができます
+    ...
+    // オーバーロード関数の場合、2つ目以降のFakeには宣言/定義時に置換したシンボル名でアクセスします
+    RESET_FAKE(Ex3_valueFuncA);
+    RESET_FAKE(Ex3_valueFuncA_ovl1); // 2つ目のオーバーロード関数
+    RESET_FAKE(Ex3_valueFuncA_ovl2); // 3つ目のオーバーロード関数
+
+    testee_func(); // 中でlib.hの関数をコールするテスト対象です
+    
+    ...
+
+    // RESET_FAKEの引数に指定した名前_fake構造体のメンバにアクセスすることで
+    // コール回数やコール時の引数の値を検証できます（FFFの仕様と同じです）
+    ...
+    // オーバーロード関数のFake
+    // オーバーロード関数の場合、2つ目以降のFakeには宣言/定義時に置換したシンボル名でアクセスします
+    ASSERT_EQ(1, Ex3_valueFuncA_fake.call_count);
+    ASSERT_EQ(1, Ex3_valueFuncA_ovl1_fake.call_count); // 2つ目のオーバーロード関数
+    ASSERT_EQ(1, Ex3_valueFuncA_ovl2_fake.call_count); // 3つ目のオーバーロード関数
+    ...
+}
+```
 
 以上
